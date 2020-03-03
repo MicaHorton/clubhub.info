@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required Meta Tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!--Importing Bootstrap and Custom CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="myStyle.css"/>
+    <title>Club List</title>
+
+    <!--Initially Hide Logged-In Stuff Before Firestore Stuff Has Loaded-->
+    <style type='text/css'>
+      .logged-in {display: none;}
+    </style>
+
+  </head>
+
+  <body>
+    <!--HEADER AND NAV BAR-->
+    <div class="jumbotron" class="page-header">
+      <center><h1 class="headertext">Club Hub</h1></center>
+    </div>
+
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" ><a class="nav-link" href="index.html">Club List</a></li>
+        <li class="nav-item"><a class="nav-link" href="calendar.html">Calendar</a></li>
+        <li class="nav-item"><a class="nav-link" href="aboutUs.html">About Us</a></li>
+        <li class="nav-item active logged-out"><a class="nav-link" href="myPage.html">Officers</a></li>
+        <li class="nav-item active logged-in"><a class="nav-link" href="myPage.html">Edit</a></li>
+        <li class="nav-item logged-in" id="signout"><a class="nav-link" href="myPage.html">Logout</a></li>
+      </ul>
+    </nav>
+
+    <!--Create Acount, Login and Sign Out Buttons-->
+    <!--
+    <form id="signup-form">
+      <input type ="email" id="signup-email" required />
+      <input type="password" id="signup-password" required />
+      <button type="submit">Create Acount</button>
+    </form>
+    -->
+
+    <!--NOT HEADER AND NAV BAR-->
+    <div class='actualContent'>
+
+    <!--Login Form-->
+    <h3 class="logged-out">Officer Login</h3>
+    <form class="logged-out" id="login-form">
+      <div class="form-group"> 
+        <label for="email">Email Address:</label>
+        <input type ="email" class="form-control" id="login-email" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" id="login-password" required />
+      </div>
+      <button type="button submit">Login</button>
+    </form>
+
+    <!--Register Your Club-->
+    <h3 class="logged-out">Register Your Club</h3>
+    <p class="logged-out">Registering your club allows you to have a page on club list and post meetings/events on the club calender. You must follow our <span data-toggle="modal" data-target="#guidelines">community guidelines</span>.</p>
+    <form class="logged-out" id="signup-form">
+      <div class="form-group">
+        <label for="email">Email Address:</label>
+        <input type ="email" class="form-control" id="signup-email" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password: </label>
+        <input type="password" class="form-control" id="signup-password" required />
+      </div>
+      <button type="submit">Create Acount</button>
+    </form>
+
+    <!--Communtiy Guidelines Modal-->
+    <div class="modal" id="guidelines">
+      <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!--Modal Header with Close Button-->
+        <div class="modal-header">
+          <h3 class="modal-title">Community Guidelines</h3>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!--Modal Body-->
+        <div class="modal-body">
+          ClubHub is a completely student-run community project, and we'd appreciate your respect and 
+          use of ClubHub for it's intended purpose: to make advertisting for school club's and other
+          orginizations easier.
+
+          Understand that by creating an acount, your email get's logged in ClubHub's Firebase database, 
+          and if you create a club page to advertise something other than a school club or activity, it'll 
+          be immediaetlly removed, and we'll know who you are.
+
+          Underestand that unauthorized computer access is illegal and punishable by law. Even the best
+          hacker's that ran LulzSec, The Silk Road, etc... got caught eventually. 
+        </div>
+
+      </div>
+      </div>
+    </div>
+
+    <!--Edit Your Page Form-->
+    <h3 class="logged-in">Edit Your Club's Page</h3>
+    <form class="logged-in" id="create-form">
+
+      <div class="form-group">
+        <label for="clubName">Your Club's Name</label>
+        <input class="form-control" id="clubName">
+      </div>
+
+      <div class="form-group">
+        <label for="clubContent">About Your Club</label>
+        <input class="form-control" id="clubContent">
+      </div>
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="signupCheck">
+        <label class="form-check-label" for="signupCheck">Allow People To Signup Through This Website</label>
+      </div>
+
+      <button type="button submit" class="btn btn-primary">Submit</button>
+    </form>    
+
+    </div>
+
+
+    
+    <!--Firebase Setup Code-->
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js"></script>    
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-firestore.js"></script>
+
+
+    <script>
+
+      //Connecting Front-End(This Code) to Back-End(Firebase Console)
+      var firebaseConfig = {
+        apiKey: "AIzaSyDV6JmF3kn9DnlMAs0M4KEdiimOI7NSchk",
+        authDomain: "charity-tracker-2cbb1.firebaseapp.com",
+        databaseURL: "https://charity-tracker-2cbb1.firebaseio.com",
+        projectId: "charity-tracker-2cbb1",
+        storageBucket: "charity-tracker-2cbb1.appspot.com",
+        messagingSenderId: "593519301389",
+        appId: "1:593519301389:web:2acb6d11eb9f56b82e1644",
+        measurementId: "G-9NDMF0F80R"
+      };
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+      //db.settings({ timestampsInSnapshots: true })
+      
+    </script>
+
+    <!--Actual JavaScript Code (To Make Forms Work, etc...)-->
+    <script src="scripts/universal.js"></script>
+    <script src="scripts/myPage.js"></script>
+
+    <!--Bootstrap and jQuery Javascript CDN (for the Modal)-->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+   
+  
+  </body>
+</html>

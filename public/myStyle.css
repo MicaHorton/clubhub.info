@@ -1,0 +1,84 @@
+
+/* Header Styling */
+.jumbotron {
+  margin-bottom: 0px;
+  padding: 4%;
+}
+
+.headertext {
+  font-size: 50px;
+  padding: 0px;
+  margin: 0px;
+  width: 300px;
+  border-style: solid;
+  border-width: 5px;
+  text-align: center;
+  
+}
+
+/* Navbar Styling */
+nav .navbar .navbar-light .bg-light {
+  margin-bottom: 500px;
+}
+
+/* parent navbar-nav, child li*/
+.navbar-nav > li {
+  float: left;
+  position: relative;
+  font-size: 18px;
+  color: black;
+  padding: 0px;
+  margin: 0px;
+}
+
+.navbar-light .navbar-nav {
+  color: black;
+}
+
+/* navbar-light and navbar-nav and active and element a, insert something after */
+.navbar-light .navbar-nav .active a::after {
+  border-bottom: 5px solid red;
+  padding: 0px;
+  margin: 0px;
+  bottom: -0px;
+  content: " ";
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+
+/* navbar-light and navbar-nav and hovering on element a, insert something after */
+.navbar-light .navbar-nav a:hover::after {
+  border-bottom: 5px solid red;
+  padding: 0px;
+  margin: 0px;
+  bottom: -0px;
+  content: " ";
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: rgba(0,0,0);
+}
+
+
+/* Actual Content Styling */
+.actualContent {
+  margin: 20px;
+}
+
+#login-form {
+  margin-bottom: 30px;
+}
+
+span {
+  color: blue;
+  text-decoration: underline;
+}
+
+.clubIndex {
+  font-size: 20px;
+  margin-top: 25px;
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required Meta Tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!--Importing Bootstrap and Custom CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="myStyle.css"/> 
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+    
+    <title>About Us</title>
+
+    <!--Fixes So The Blink Is Less Noticable... Better Way?-->
+    <style type='text/css'>
+      .logged-in {display: none;}
+      .logged-out {display: none;}
+    </style>
+  </head>
+  <body>
+    <!--Header and Navigation Bar Code-->
+    <div class="jumbotron" class="page-header">
+      <center><h1 class="headertext">Club Hub</h1></center>
+    </div>
+
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" ><a class="nav-link" href="index.html">Club List</a></li>
+        <li class="nav-item"><a class="nav-link" href="calendar.html">Calendar</a></li>
+        <li class="nav-item active"><a class="nav-link" href="aboutUs.html">About Us</a></li>
+        <li class="nav-item logged-out"><a class="nav-link" href="myPage.html">Officers</a></li>
+        <li class="nav-item logged-in"><a class="nav-link" href="myPage.html">Edit</a></li>
+        <li class="nav-item logged-in" id="signout"><a class="nav-link" href="myPage.html">Logout</a></li>
+      </ul>
+    </nav>
+
+    <!--Actual Content of Page-->
+    <div class='actualContent'>
+      
+      <!--Infomation About Us-->
+      <h3>What is ClubHub?</h3>
+      <ul>
+        <li>a place for club officers to advertise their clubs</li>
+        <li>a place for students to see what clubs they can join</li>
+        <li>a place for club members to see when their meetings are</li>
+        <li>a place for students to see what clubs they can donate to</li>
+      </ul>
+
+      <h3>How does it work?</h3>
+      <p>Anybody can access this website and see the list of clubs and the club calender. Club officers can create an acount to represent their
+        club on the "club list" page and will be given the credentials to add events to the club calender.
+      </p>
+
+      <!--Report A Bug/Make A Suggestion-->
+      <h3>Report A Bug/Make A Suggestion</h3>
+      <form id="contactUs">
+        <div class="form-group"> 
+          <label for="email">Email Address:</label>
+          <input type ="email" class="form-control" id="contact-email" required />
+        </div>
+        <div class="form-group">
+          <label for="contact-input">Comment:</label>
+          <input class="form-control" id="contact-input" required />
+        </div>
+        <button type="button submit">Contact Us</button>
+      </form>
+
+      <p>If you submit a bug or make a suggesiton, the ClubHub team will do our best to take a look at it.
+        However, ClubHub is an open source project. If someone has a feature they'd really like to make happen,
+        we encourage anyone to take a look at our <span><a href="https://github.com/MicaHorton/STEAM-Repository">Github repositroy</a></span>, fork it, and upload their suggested code to a branch.
+        For more information, contact us (using the form above.)
+      </p>
+
+
+    </div>
+
+
+
+    <!--Firebase Setup Code-->
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js"></script>    
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-firestore.js"></script>
+
+    <script>
+      //Connecting Front-End(This Code) to Back-End(Firebase Console)
+      var firebaseConfig = {
+        apiKey: "AIzaSyDV6JmF3kn9DnlMAs0M4KEdiimOI7NSchk",
+        authDomain: "charity-tracker-2cbb1.firebaseapp.com",
+        databaseURL: "https://charity-tracker-2cbb1.firebaseio.com",
+        projectId: "charity-tracker-2cbb1",
+        storageBucket: "charity-tracker-2cbb1.appspot.com",
+        messagingSenderId: "593519301389",
+        appId: "1:593519301389:web:2acb6d11eb9f56b82e1644",
+        measurementId: "G-9NDMF0F80R"
+      };
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+      //db.settings({ timestampsInSnapshots: true })
+      
+    </script>
+    <script src="scripts/universal.js"></script> 
+    <script src="scripts/aboutUs.js"></script>
+
+    <!--Bootstrap and jQuery Javascript CDN (for the Modal)-->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+
+  </body>
+</html>
+
+<!-- Old Contact Us Modal Code
+  <button data-toggle="modal" data-target="#contactUs">Contact Us</button>
+
+      <div class="modal" id="contactUs">
+        <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+  
+          Modal Header with Close Button
+          <div class="modal-header">
+            <h3 class="modal-title">Contact Us</h3>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+  
+          Modal Body
+          <div class="modal-body">
+            Insert contact form here...
+          </div>
+  
+        </div>
+        </div>
+      </div>
+
+-->

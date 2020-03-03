@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required Meta Tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--Importing Bootstrap and Custom CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="myStyle.css"/> 
+    <title>Club Meetings</title>
+
+    <!--Fixes So The Blink Is Less Noticable... Better Way?-->
+    <style type='text/css'>
+      .logged-in {display: none;}
+      .logged-out {display: none;}
+    </style>
+  </head>
+  
+  <body>
+    <!--Header and Navigation Bar Code-->
+    <div class="jumbotron" class="page-header">
+      <center><h1 class="headertext">Club Hub</h1></center>
+    </div>
+
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" ><a class="nav-link" href="index.html">Club List</a></li>
+        <li class="nav-item active"><a class="nav-link" href="calendar.html">Calendar</a></li>
+        <li class="nav-item"><a class="nav-link" href="aboutUs.html">About Us</a></li>
+        <li class="nav-item logged-out"><a class="nav-link" href="myPage.html">Officers</a></li>
+        <li class="nav-item logged-in"><a class="nav-link" href="myPage.html">Edit</a></li>
+        <li class="nav-item logged-in" id="signout"><a class="nav-link" href="myPage.html">Logout</a></li>
+      </ul>
+    </nav>
+
+    <!--Calendar Embed-->
+    <div data-tockify-component="calendar" data-tockify-calendar="lahs.clubs"></div>
+<script data-cfasync="false" data-tockify-script="embed"
+                                  src="https://public.tockify.com/browser/embed.js"></script>
+ 
+    <!--Firebase Setup Code-->
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js"></script>    
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-firestore.js"></script>
+
+    <script>
+      //Connecting Front-End(This Code) to Back-End(Firebase Console)
+      var firebaseConfig = {
+        apiKey: "AIzaSyDV6JmF3kn9DnlMAs0M4KEdiimOI7NSchk",
+        authDomain: "charity-tracker-2cbb1.firebaseapp.com",
+        databaseURL: "https://charity-tracker-2cbb1.firebaseio.com",
+        projectId: "charity-tracker-2cbb1",
+        storageBucket: "charity-tracker-2cbb1.appspot.com",
+        messagingSenderId: "593519301389",
+        appId: "1:593519301389:web:2acb6d11eb9f56b82e1644",
+        measurementId: "G-9NDMF0F80R"
+      };
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+      //db.settings({ timestampsInSnapshots: true })
+      
+    </script>
+    
+    <script src="scripts/universal.js"></script>
+  
+  </body>
+</html>
