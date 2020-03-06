@@ -5,31 +5,37 @@ const setupInfo = (data) => {
     data.forEach(doc => {
         //document (refers to window element) != doc (refers to piece of data in Firestore database)
         let newLi = document.createElement('li');
-        clubInfo = doc.data();
 
+        clubInfo = doc.data();
         newLi.innerHTML = clubInfo.club;
-        newLi.setAttribute('onclick', 'showPage(clubInfo)');
+        newLi.id = doc.id;
+        
+        clubData = data;
+        newLi.setAttribute('onclick', 'showPage(clubData, newLi.id)');
+
 
         clubIndex.appendChild(newLi);
     });
-    console.log(clubInfo);
-    //Oh I see what is happening, clubInfo changes
-
 }; 
 
 //Show Indvidual Club Page
-function showPage (clubInfo) {
+function showPage (data, chosenClub) {
     //Hides Club Index
     const clubIndex = document.querySelector('.clubIndex');
     clubIndex.style.display = 'none';
 
+    
     //Displays Current Club's Info
     const clubPage = document.querySelector('.clubPage');
+    console.log(chosenClub);
+    //const selectClub = z
+
+    /* 
     let html = `
-        <h2>${clubInfo.club}</h2>
-        <p>${clubInfo.content}</p>
+        <h2>${selectClub.club}</h2>
+        <p>${selectClub.content}</p>
     `;
-    clubPage.innerHTML = html;
+    clubPage.innerHTML = html; */
 
 }
 
