@@ -1,15 +1,14 @@
 //Code For Showing Club Index 
 const setupInfo = (data) => {
-    console.log(data);
     let html = ''; 
     const clubIndex = document.querySelector('.clubIndex'); //Using querySelectorAll doesn't work for some reason...
     data.forEach(doc => {
         //Add A List Element to HTML for Each Club
         const myInfo = doc.data();
-
+        console.log(doc.id);
         const newLi = `
             <li> 
-                <div class="clubName">${myInfo.club}</div>
+                <div class="clubName" onclick="" id=${doc.id}>${myInfo.club}</div>
                 
             </li>
             `;
@@ -26,7 +25,8 @@ function setUpClickHandlers(data) {
     const clubNames = document.getElementsByClassName('clubName'); //Can't use querySelectorAll because it isn't live    
     for (club of clubNames) {
         club.onclick = (e) => { 
-            console.log('Club element clicked:',club.innerHTML);
+            //console.log('Club element clicked:',club.innerHTML);
+            console.log('ID of element clicked:',club.id);
             //Cycles Through Data and Get's Data of Club Clicked
             // db.collection('info') => snapshot.docs => data => for each doc => .data method to extract data of doc => see if club == clicked club's innerHTML
             data.forEach(doc => {
