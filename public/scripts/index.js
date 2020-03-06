@@ -1,65 +1,37 @@
-//Code For Showing Club Index 
+//Show Club Index 
 const setupInfo = (data) => {
-    console.log(data);
-    let html = ''; 
     const clubIndex = document.querySelector('.clubIndex'); //Using querySelectorAll doesn't work for some reason...
+     //Add A List Element to HTML for Each Club
     data.forEach(doc => {
-        //Add A List Element to HTML for Each Club
-        const myInfo = doc.data();
+        //document (refers to window element) != doc (refers to piece of data in Firestore database)
+        let newLi = document.createElement('li');
+        clubInfo = doc.data();
 
-        const newLi = `
-            <li> 
-                <div class="clubName">${myInfo.club}</div>
-                
-            </li>
-            `;
-        html += newLi; 
+        newLi.innerHTML = clubInfo.club;
+        newLi.setAttribute('onclick', 'showPage(clubInfo)');
+
+        clubIndex.appendChild(newLi);
     });
-    clubIndex.innerHTML = html;
-    setUpClickHandlers(data); 
+    console.log(clubInfo);
+    //Oh I see what is happening, clubInfo changes
+
 }; 
-//Add doc.id and then select via that
 
-//When Club Name Is Clicked, Show Club 'Page'
-function setUpClickHandlers(data) {
-    //Taking Listed Elements and Making Them Clickable
-    const clubNames = document.getElementsByClassName('clubName'); //Can't use querySelectorAll because it isn't live    
-    for (club of clubNames) {
-        club.onclick = (e) => { 
-            console.log('Club element clicked:',club.innerHTML);
-            //Cycles Through Data and Get's Data of Club Clicked
-            // db.collection('info') => snapshot.docs => data => for each doc => .data method to extract data of doc => see if club == clicked club's innerHTML
-            data.forEach(doc => {
-                myInfo = doc.data();
-                //console.log(myInfo.club);
-    
-                console.log('InnerHTML of element clicked:',club.innerHTML);
-                if (myInfo.club == club.innerHTML) {
-                    currentClub = myInfo;
-                };
-            });
+//Show Indvidual Club Page
+function showPage (clubInfo) {
+    //Hides Club Index
+    const clubIndex = document.querySelector('.clubIndex');
+    clubIndex.style.display = 'none';
 
-            //Hides Club Index And Displays Current Club's Info
-            const clubIndex = document.querySelector('.clubIndex');
-            clubIndex.style.display = 'none';
+    //Displays Current Club's Info
+    const clubPage = document.querySelector('.clubPage');
+    let html = `
+        <h2>${clubInfo.club}</h2>
+        <p>${clubInfo.content}</p>
+    `;
+    clubPage.innerHTML = html;
 
-            const backButton = document.querySelector('#backButton');
-            console.log(backButton);
-            backButton.style.display = 'block'; 
-            console.log(backButton.style.display);
-
-            const clubPage = document.querySelector('.clubPage');
-            let html = `
-                <button id='backButton'><a href="index.html">Back</a></button>
-                <h2>${currentClub.club}</h2>
-                <p>${currentClub.content}</p>
-            `;
-            clubPage.innerHTML = html;
-
-        };
-    }; 
-
-};
+}
 
 //Get Data and Execute Code (when DOM has loaded)
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -68,7 +40,3 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     }); 
 });
-
-
-
-
