@@ -13,6 +13,8 @@
     <!--Initially Hide Logged-In Stuff Before Firestore Stuff Has Loaded-->
     <style type='text/css'>
       .logged-in {display: none;}
+      .onOfficial {display: none;}
+      .onDonate {display: none;}
     </style>
 
   </head>
@@ -92,9 +94,16 @@
           use of ClubHub for it's intended purpose: to make advertisting for school club's and other
           orginizations easier.
 
-          Understand that by creating an acount, your email get's logged in ClubHub's Firebase database, 
+          Understand that by creating an acount, your email get's logged in ClubHub's Firebase database. 
           and if you create a club page to advertise something other than a school club or activity, it'll 
-          be immediaetlly removed, and we'll know who you are.
+          be immediaetly removed, and we'll know who you are. 
+
+          Administrators of ClubHub can see your email, but not your password. They can delete your page 
+          and your acount, but they can't edit it in your name.
+
+          Only official LAHS clubs can accept donations. An official club is one that has submitted a club
+          application form and has been approved by ASB. Claiming to be an official club when not being one 
+          will result in acount removal.
 
           Underestand that unauthorized computer access is illegal and punishable by law. Even the best
           hacker's that ran LulzSec, The Silk Road, etc... got caught eventually. 
@@ -108,6 +117,7 @@
     <h3 class="logged-in">Edit Your Club's Page</h3>
     <form class="logged-in" id="create-form">
 
+      <!--Title and About-->
       <div class="form-group">
         <label for="clubName">Your Club's Name</label>
         <input class="form-control" id="clubName">
@@ -118,9 +128,35 @@
         <textarea class="form-control" rows="10" id="clubContent"></textarea>
       </div>
 
+      <!--Checkboxes-->
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="" id="signupCheck">
         <label class="form-check-label" for="signupCheck">Allow People To Signup Through This Website</label>
+      </div>
+
+      <div class="form-check mb-2">
+        <input class="form-check-input" type="checkbox" value="" id="officialCheck">
+        <label class="form-check-label" for="officialCheck">This Is An Official LAHS Club (verified by ASB)</label>
+      </div>
+
+      <div class="onOfficial">
+        <div class="form-group" id="inputOfficial">
+          <label for="clubAdvisor">Club Advisor and Room Number</label>
+          <input class="form-control" id="clubAdvisor">
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="donateCheck">
+          <label class="form-check-label" for="donateCheck">Club Accepts Donations</label>
+        </div>
+
+        <div class="form-group onDonate">
+          <label for="donatePurpose">What is the money used for?</label>
+          <input class="form-control" id="donatePurpose">
+
+          <label for="donateHow">How can people donate?</label>
+          <input class="form-control" id="donateHow">
+        </div>
       </div>
 
       <button type="button submit" class="btn btn-primary">Submit</button>

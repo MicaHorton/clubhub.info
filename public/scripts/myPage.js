@@ -50,3 +50,27 @@ loginForm.addEventListener('submit',(e) => {
 })
 
 //Checkbox Code
+const officialCheck = document.getElementById('officialCheck');
+const onOfficial = document.querySelector('.onOfficial');
+console.log(onOfficial);
+
+officialCheck.addEventListener('click', (e) => {
+    if (officialCheck.checked == true) {
+        onOfficial.style.display = 'block';
+
+    } else {
+        onOfficial.style.display = 'none';
+    };
+});
+
+
+const donateCheck = document.getElementById('donateCheck');
+const onDonate = document.querySelector('.onDonate');
+
+donateCheck.addEventListener('click', (e) => {
+    if (donateCheck.checked == true) {
+        onDonate.style.display = 'block';
+    } else {
+        onDonate.style.display = 'none';
+    };
+}); 
