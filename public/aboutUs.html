@@ -16,6 +16,7 @@
     <style type='text/css'>
       .logged-in {display: none;}
       .logged-out {display: none;}
+      #contactAlert {display: none;}
     </style>
   </head>
   <body>
@@ -66,6 +67,13 @@
         <button type="button submit" class="btn btn-secondary mb-2">Contact Us</button>
       </form>
 
+      <div class="alert alert-success alert-dismissible fade show" role="alert" id="contactAlert">
+        Your message has been sent!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
       <p>If you submit a bug or make a suggesiton, the ClubHub team will do our best to take a look at it.
         However, ClubHub is an open source project. If someone has a feature they'd really like to make happen,
         we encourage anyone to take a look at our <span><a href="https://github.com/MicaHorton/STEAM-Repository">Github repositroy</a></span>, fork it, and upload their suggested code to a branch.
@@ -113,26 +121,3 @@
   </body>
 </html>
 
-<!-- Old Contact Us Modal Code
-  <button data-toggle="modal" data-target="#contactUs">Contact Us</button>
-
-      <div class="modal" id="contactUs">
-        <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-  
-          Modal Header with Close Button
-          <div class="modal-header">
-            <h3 class="modal-title">Contact Us</h3>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-  
-          Modal Body
-          <div class="modal-body">
-            Insert contact form here...
-          </div>
-  
-        </div>
-        </div>
-      </div>
-
--->

@@ -2,6 +2,7 @@
 const form = document.querySelector('#contactUs');
 const email = document.querySelector('#contact-email');
 const input = document.querySelector('#contact-input');
+const alert = document.querySelector('#contactAlert');
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -9,4 +10,6 @@ form.addEventListener('submit', (e) => {
         email: email.value,
         input: input.value
     });
+    form.reset();
+    alert.style.display = 'block';
 });
