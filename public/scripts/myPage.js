@@ -1,5 +1,8 @@
 //Edit Club Info Form
 const createForm = document.querySelector('#create-form');
+const editSuccess = document.querySelector('#editSuccess');
+const editFail = document.querySelector('#editFail');
+
 createForm.addEventListener('submit', (e) => {
     e.preventDefault();
     var user = firebase.auth().currentUser;
@@ -8,14 +11,19 @@ createForm.addEventListener('submit', (e) => {
         club: createForm['clubName'].value,
         content: createForm['clubContent'].value
     });
-    createForm.reset();
 
-    
+    createForm.reset();
+    editSuccess.style.display = 'block';
+
+}).catch(err => {
+    editFail.style.display = 'block';
+    editFail.style.display.innertHTML = err.message;
 });
 
 //AUTHENTICATION SETUP CODE
 //Register Your Club Code
 const signupForm = document.querySelector('#signup-form');
+const signupAlert = document.querySelector('#signupAlert');
 signupForm.addEventListener('submit',(e) => {
     e.preventDefault();
 
@@ -27,12 +35,17 @@ signupForm.addEventListener('submit',(e) => {
     auth.createUserWithEmailAndPassword(email,password).then(cred => {
         console.log(cred.user);
         signupForm.reset();
+        signupAlert.style.display = 'none';
 
+    }).catch(err => {
+        signupAlert.style.display = 'block';
+        signupAlert.innerHTML = err.message;
     })
 }) 
 
 //Login Form
 const loginForm = document.querySelector('#login-form');
+const loginAlert = document.querySelector('#loginAlert');
 loginForm.addEventListener('submit',(e) => {
     console.log('Button pressed!')
     e.preventDefault();
@@ -45,7 +58,11 @@ loginForm.addEventListener('submit',(e) => {
     auth.signInWithEmailAndPassword(email,password).then(cred => {
         console.log(cred.user);
         loginForm.reset();
+        loginAlert.style.display = 'none';
 
+    }).catch(err => {
+        loginAlert.style.display = 'block';
+        loginAlert.innerHTML = err.message;
     })
 })
 
