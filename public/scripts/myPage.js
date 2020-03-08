@@ -1,8 +1,6 @@
 //Edit Club Info Form
 const createForm = document.querySelector('#create-form');
-const editSuccess = document.querySelector('#editSuccess');
-const editFail = document.querySelector('#editFail');
-
+const editAlert = document.querySelector('#editAlert');
 createForm.addEventListener('submit', (e) => {
     e.preventDefault();
     var user = firebase.auth().currentUser;
@@ -11,13 +9,9 @@ createForm.addEventListener('submit', (e) => {
         club: createForm['clubName'].value,
         content: createForm['clubContent'].value
     });
-
     createForm.reset();
-    editSuccess.style.display = 'block';
+    editAlert.style.display = 'block';
 
-}).catch(err => {
-    editFail.style.display = 'block';
-    editFail.style.display.innertHTML = err.message;
 });
 
 //AUTHENTICATION SETUP CODE
