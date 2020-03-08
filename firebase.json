@@ -15,5 +15,14 @@
       "**/.*",
       "**/node_modules/**"
     ]
-  }
+  },
+  "headers": [{
+    "source": "**/*",
+    "headers": [
+      {"key": "X-Content-Type-Options", "value": "nosniff"},
+      {"key": "X-Frame-Options", "value": "ALLOW-FROM https://calendar.google.com"},
+      {"key": "X-UA-Compatible", "value": "ie=edge"},
+      {"key": "X-XSS-Protection", "value": "1; mode=block"}
+    ]
+  }]
 }
