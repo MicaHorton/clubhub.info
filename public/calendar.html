@@ -71,3 +71,14 @@
   
   </body>
 </html>
+
+<!-- 
+Calendar Embed Issue
+- doesn't work on Safari, works on Chrome
+  - https://securityheaders.com says headers are set to sameorigin, but Safari still says they're set to deny
+  - browser settings or code issue?
+- tried frame-ancestors thing, didn't do anything
+  - {"key": "Content-Security-Policy", "value": " frame-ancestors https://calendar.google.com/calendar/b/1/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FLos_Angeles&amp;src=ZjRtMmZ2M2g5bTQxajhvM3ZpdmdlZHVpbmdAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%237986CB&amp;showTitle=0&amp;showDate=1&amp;showPrint=0&amp;showTabs=1&amp;showTz=0&amp;showCalendars=0&amp;title=ClubHub%20Calendar"}
+- also prevents from dynamic changing
+
+-->
