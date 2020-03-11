@@ -1,5 +1,6 @@
 #Ignore Functions For Security (custom)
 functions/
+credentials.json
 
 # Logs
 logs
