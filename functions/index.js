@@ -42,20 +42,24 @@ return null;
 }); 
 
 //ADD CALENDAR EVENT
+//Setup Calendar API & Authenticate Service Acount
 const {google} = require('googleapis');
-const calendar = google.calendar('v3');
+const path = require('path');  
+const key = require(path.join(__dirname, 'credentials.json'));
+const jwtClient = new google.auth.JWT(
+  key.client_email,
+  null,
+  key.private_key,
+  ["https://www.googleapis.com/auth/calendar"],
+  null
+);
+const calendar = google.calendar({ version: 'v3', auth: jwtClient });
 
-//Authenticate Service Acounnt
-function getCredentials() {
-  const filePath = path.join(__dirname, 'credentials.json';
-  if (fs.existsSync(filePath)) {
-    return require(filePath)
-  }
-  if (process.env.CREDENTIALS) {
-    return JSON.parse(process.env.CREDENTIALS)
-  }
-  throw new Error('Unable to load credentials')
-}
+const ERROR_RESPONSE = {
+  status: "500",
+  message: "There was an error adding an event to your Google calendar"
+};
+const TIME_ZONE = 'EST';
 
 //Create Calendar Event
 function addEvent(event) {
@@ -87,7 +91,6 @@ function addEvent(event) {
 
 //Add Event To Service Acount 
 exports.addEventToCalendar = functions.https.onRequest((request, response) => {
-  
   const eventData = {
       eventName: request.body.eventName,
       description: request.body.description,
@@ -95,13 +98,7 @@ exports.addEventToCalendar = functions.https.onRequest((request, response) => {
       endTime: request.body.endTime
   }; 
 
-  const credentials = getCredentials();
-  const client = await google.auth.getClient({
-    credentials,
-    scopes: 'https://www.googleapis.com/auth/calendar',
-  }) 
-
-  addEvent(eventData, client).then(data => {
+  addEvent(eventData).then(data => {
       response.status(200).send(data);
       return;
   }).catch(err => {
@@ -111,14 +108,3 @@ exports.addEventToCalendar = functions.https.onRequest((request, response) => {
   });
 
 }); 
-
-/*
-  const oAuth2Client = new OAuth2(
-      googleCredentials.web.client_id,
-      googleCredentials.web.client_secret,
-      googleCredentials.web.redirect_uris[0]
-  );
-
-  oAuth2Client.setCredentials({
-      refresh_token: googleCredentials.refresh_token
-  }); */
