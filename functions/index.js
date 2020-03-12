@@ -1,4 +1,4 @@
-//Send Welcome Email
+//SEND WELCOME MAIL 
 //Setup Stuff
 const functions = require('firebase-functions');
 const admin = require("firebase-admin");
@@ -39,42 +39,86 @@ try {
   console.error('There was an error while sending the email:', error);
 }
 return null; 
-});
+}); 
 
-
-
-//Add Calendar Event Function
-//Setup Stuff
+//ADD CALENDAR EVENT
 const {google} = require('googleapis');
 const calendar = google.calendar('v3');
-//Credentials To Service Acount
-const googleCredentials = require('./credentials.json');
 
+//Authenticate Service Acounnt
+function getCredentials() {
+  const filePath = path.join(__dirname, 'credentials.json';
+  if (fs.existsSync(filePath)) {
+    return require(filePath)
+  }
+  if (process.env.CREDENTIALS) {
+    return JSON.parse(process.env.CREDENTIALS)
+  }
+  throw new Error('Unable to load credentials')
+}
 
-
-//Actual Function
+//Create Calendar Event
 function addEvent(event) {
-return new Promise(function(resolve, reject) {
-    calendar.events.insert({
-        calendarId: 'primary',
-        resource: {
-            'summary': event.eventName,
-            'description': event.description,
-            'start': {
-                'dateTime': event.startTime,
-                'timeZone': TIME_ZONE,
-            },
-            'end': {
-                'dateTime': event.endTime,
-                'timeZone': TIME_ZONE,
-            },
-        },
-    }, (err, res) => {
-        if (err) {
-            console.log('Rejecting because of error');
-            reject(err);
-        }
-        console.log('Request successful');
-        resolve(res.data);
-    });
+  return new Promise(function(resolve, reject) {
+      calendar.events.insert({
+          calendarId: 'primary',
+          resource: {
+              'summary': event.eventName,
+              'description': event.description,
+              'start': {
+                  'dateTime': event.startTime,
+                  'timeZone': TIME_ZONE,
+              },
+              'end': {
+                  'dateTime': event.endTime,
+                  'timeZone': TIME_ZONE,
+              },
+          },
+      }, (err, res) => {
+          if (err) {
+              console.log('Rejecting because of error');
+              reject(err);
+          }
+          console.log('Request successful');
+          resolve(res.data);
+      });
+  });
+}
+
+//Add Event To Service Acount 
+exports.addEventToCalendar = functions.https.onRequest((request, response) => {
+  
+  const eventData = {
+      eventName: request.body.eventName,
+      description: request.body.description,
+      startTime: request.body.startTime,
+      endTime: request.body.endTime
+  }; 
+
+  const credentials = getCredentials();
+  const client = await google.auth.getClient({
+    credentials,
+    scopes: 'https://www.googleapis.com/auth/calendar',
+  }) 
+
+  addEvent(eventData, client).then(data => {
+      response.status(200).send(data);
+      return;
+  }).catch(err => {
+      console.error('Error adding event: ' + err.message); 
+      response.status(500).send(ERROR_RESPONSE); 
+      return;
+  });
+
 }); 
+
+/*
+  const oAuth2Client = new OAuth2(
+      googleCredentials.web.client_id,
+      googleCredentials.web.client_secret,
+      googleCredentials.web.redirect_uris[0]
+  );
+
+  oAuth2Client.setCredentials({
+      refresh_token: googleCredentials.refresh_token
+  }); */
