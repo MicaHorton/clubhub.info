@@ -1,4 +1,5 @@
-//SetUp Email Stuff
+//SEND WELCOME MAIL 
+//Setup Stuff
 const functions = require('firebase-functions');
 const admin = require("firebase-admin");
 const fs=require('fs'); 
@@ -16,10 +17,10 @@ const mailTransport = nodemailer.createTransport({
   },
 });
 
-//Get Welcome Email Information
+//Get Content of Welcome Email 
 var htmlmail=fs.readFileSync("welcome.html","utf-8").toString();
 
-//Send Welcome Email
+//Actual Welcome Email Functon
 exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
   const recipent_email = user.email; 
  
@@ -38,48 +39,72 @@ try {
   console.error('There was an error while sending the email:', error);
 }
 return null; 
-});
+}); 
 
-//Sends Notification When Someone Uses Contact Form (doesn't work)
-/*
-contactNotification = bfunctions.https.onCall(
-  console.log('Firebase realized this happened!')
-  const mailOptions = {
-      from: '"ClubHub" <clubhub.lahs@gmail.com>',
-      to: '"ClubHub" <clubhub.lahs@gmail.com>',
-      subject: 'Someone contacted you!'
-  };
+//ADD CALENDAR EVENT
+//Setup Calendar API & Authenticate Service Acount
+const {google} = require('googleapis');
+const path = require('path');  
+const key = require(path.join(__dirname, 'credentials.json'));
+const jwtClient = new google.auth.JWT(
+  key.client_email,
+  null,
+  key.private_key,
+  ["https://www.googleapis.com/auth/calendar"],
+  null
+);
+const calendar = google.calendar({ version: 'v3', auth: jwtClient });
 
-  try {
-    mailTransport.sendMail(mailOptions);
-    console.log('mail sent');
-    
-  } catch(error) {
-    console.error('There was an error while sending the email:', error);
-  }
-  return null;
+const ERROR_RESPONSE = {
+  status: "500",
+  message: "There was an error adding an event to your Google calendar"
+};
+const TIME_ZONE = 'EST';
 
-); */
+//Add Calendar Event to Service Account
+function addEvent(event) {
+  return new Promise(function(resolve, reject) {
+      calendar.events.insert({
+          calendarId: 'clubhub.lahs@gmail.com',
+          resource: {
+              'summary': event.eventName,
+              'description': event.description,
+              'start': {
+                  'dateTime': event.startTime,
+                  'timeZone': TIME_ZONE,
+              },
+              'end': {
+                  'dateTime': event.endTime,
+                  'timeZone': TIME_ZONE,
+              },
+          },
+      }, (err, res) => {
+          if (err) {
+              console.log('Rejecting because of error');
+              reject(err);
+          }
+          console.log('Request successful');
+          resolve(res.data);
+      });
+  });
+}
 
-/*
-exports.contactNotification = functions.database.instance('contacts').ref('Users/mica').onCreate((snapshot, context) => {
-  console.log('Firebase realized this happened!')
-  const mailOptions = {
-      from: '"ClubHub" <clubhub.lahs@gmail.com>',
-      to: '"ClubHub" <clubhub.lahs@gmail.com>',
-      subject: 'Someone contacted you!'
-  };
-  
-  try {
-    mailTransport.sendMail(mailOptions);
-    console.log('mail sent');
-    
-  } catch(error) {
-    console.error('There was an error while sending the email:', error);
-  }
-  return null; 
+//Call Function on HTTPS Request
+exports.addEventToCalendar = functions.https.onRequest((request, response) => {
+  const eventData = {
+      eventName: request.body.eventName,
+      description: request.body.description,
+      startTime: request.body.startTime,
+      endTime: request.body.endTime
+  }; 
 
-});
-*/
+  addEvent(eventData).then(data => {
+      response.status(200).send(data);
+      return;
+  }).catch(err => {
+      console.error('Error adding event: ' + err.message); 
+      response.status(500).send(ERROR_RESPONSE); 
+      return;
+  });
 
-
+}); 

@@ -1,0 +1,39 @@
+//Sends Notification When Someone Uses Contact Form (doesn't work)
+contactNotification = bfunctions.https.onCall(
+    console.log('Firebase realized this happened!')
+    const mailOptions = {
+        from: '"ClubHub" <clubhub.lahs@gmail.com>',
+        to: '"ClubHub" <clubhub.lahs@gmail.com>',
+        subject: 'Someone contacted you!'
+    };
+  
+    try {
+      mailTransport.sendMail(mailOptions);
+      console.log('mail sent');
+      
+    } catch(error) {
+      console.error('There was an error while sending the email:', error);
+    }
+    return null;
+  
+  ); 
+  
+  exports.contactNotification = functions.database.instance('contacts').ref('Users/mica').onCreate((snapshot, context) => {
+    console.log('Firebase realized this happened!')
+    const mailOptions = {
+        from: '"ClubHub" <clubhub.lahs@gmail.com>',
+        to: '"ClubHub" <clubhub.lahs@gmail.com>',
+        subject: 'Someone contacted you!'
+    };
+    
+    try {
+      mailTransport.sendMail(mailOptions);
+      console.log('mail sent');
+      
+    } catch(error) {
+      console.error('There was an error while sending the email:', error);
+    }
+    return null; 
+  
+  }); 
+  
