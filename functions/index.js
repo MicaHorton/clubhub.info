@@ -61,11 +61,11 @@ const ERROR_RESPONSE = {
 };
 const TIME_ZONE = 'EST';
 
-//Create Calendar Event
+//Add Calendar Event to Service Account
 function addEvent(event) {
   return new Promise(function(resolve, reject) {
       calendar.events.insert({
-          calendarId: 'primary',
+          calendarId: 'clubhub.lahs@gmail.com',
           resource: {
               'summary': event.eventName,
               'description': event.description,
@@ -89,7 +89,7 @@ function addEvent(event) {
   });
 }
 
-//Add Event To Service Acount 
+//Call Function on HTTPS Request
 exports.addEventToCalendar = functions.https.onRequest((request, response) => {
   const eventData = {
       eventName: request.body.eventName,
