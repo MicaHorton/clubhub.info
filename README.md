@@ -1,4 +1,6 @@
 # STEAM-Repository
+Officer's page is broken do to change in Firbase, will be fixed.
+
 ## To-Do's
 - selection algorithim bug
 - calendar bug
